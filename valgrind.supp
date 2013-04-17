@@ -1,0 +1,64 @@
+{
+   stupid sendmsg bug: http://sourceware.org/bugzilla/show_bug.cgi?id=14687
+   Memcheck:Param
+   sendmsg(mmsg[0].msg_hdr)
+   fun:sendmmsg
+   obj:/usr/lib/libresolv-2.17.so
+   fun:__libc_res_nquery
+   obj:/usr/lib/libresolv-2.17.so
+   fun:__libc_res_nsearch
+   fun:_nss_dns_gethostbyname4_r
+   fun:gaih_inet
+   fun:getaddrinfo
+   fun:get_socket_fd
+   fun:main
+}
+
+# ==2467== Thread 4:
+# ==2467== Conditional jump or move depends on uninitialised value(s)
+# ==2467==    at 0x55025B3: __printf_fp (in /usr/lib/libc-2.17.so)
+# ==2467==    by 0x54FDC35: vfprintf (in /usr/lib/libc-2.17.so)
+# ==2467==    by 0x55B203F: __vsnprintf_chk (in /usr/lib/libc-2.17.so)
+# ==2467==    by 0x5075D18: _nc_printf_string (in /usr/lib/libncursesw.so.5.9)
+# ==2467==    by 0x50712CE: vwprintw (in /usr/lib/libncursesw.so.5.9)
+# ==2467==    by 0x50714D6: wprintw (in /usr/lib/libncursesw.so.5.9)
+# ==2467==    by 0x401445: cb_write_response (callbacks.c:44)
+# ==2467==    by 0x402481: t_curses_term_writer (workers.c:39)
+# ==2467==    by 0x4E3AE0E: start_thread (in /usr/lib/libpthread-2.17.so)
+# ==2467== 
+
+{
+   Curses wprintw uninitialised value
+   Memcheck:Value8
+   ...
+   fun:start_thread
+}
+
+{
+   Curses wprintw uninitialised value
+   Memcheck:Cond
+   ...
+   fun:start_thread
+}
+
+# ==2321== Use of uninitialised value of size 8
+# ==2321==    at 0x54FAA89: __mpn_addmul_1 (in /usr/lib/libc-2.17.so)
+# ==2321==    by 0x7A8C20F: ???
+# ==2321==    by 0x7A8C2FF: ???
+# ==2321==    by 0x54FB2DE: __mpn_mul (in /usr/lib/libc-2.17.so)
+# ==2321==  Uninitialised value was created by a stack allocation
+# ==2321==    at 0x5071450: wprintw (in /usr/lib/libncursesw.so.5.9)
+
+{
+   libc __mpn_mul
+   Memcheck:Value8
+   ...
+   fun:__mpn_mul
+}
+
+{
+   libc __mpn_mul
+   Memcheck:Cond
+   ...
+   fun:__mpn_mul
+}
